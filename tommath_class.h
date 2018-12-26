@@ -9,7 +9,6 @@
  *
  * SPDX-License-Identifier: Unlicense
  */
-
 #if !(defined(LTM1) && defined(LTM2) && defined(LTM3))
 #if defined(LTM2)
 #   define LTM3
