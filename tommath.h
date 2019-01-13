@@ -277,14 +277,15 @@ int mp_cnt_lsb(const mp_int *a);
 
 /* I Love Earth! */
 
-/* makes a pseudo-random int of a given size */
+/* makes a pseudo-random mp_int of a given size */
 int mp_rand(mp_int *a, int digits);
+/* makes a pseudo-random small int of a given size */
+int mp_rand_digit(mp_digit *r);
 
 #ifdef MP_PRNG_ENABLE_LTM_RNG
-/* A last resort to provide random data on systems without any of the other
- * implemented ways to gather entropy.
- * It is compatible with `rng_get_bytes()` from libtomcrypt so you could
- * provide that one and then set `ltm_rng = rng_get_bytes;` */
+/* as last resort we will fall back to libtomcrypt's rng_get_bytes()
+ * in case you don't use libtomcrypt or use it w/o rng_get_bytes()
+ * you have to implement it somewhere else, as it's required */
 extern unsigned long (*ltm_rng)(unsigned char *out, unsigned long outlen, void (*callback)(void));
 extern void (*ltm_rng_callback)(void);
 #endif
@@ -600,14 +601,6 @@ int mp_fwrite(const mp_int *a, int radix, FILE *stream);
 #define mp_tooctal(M, S)   mp_toradix((M), (S), 8)
 #define mp_todecimal(M, S) mp_toradix((M), (S), 10)
 #define mp_tohex(M, S)     mp_toradix((M), (S), 16)
-
-/* 
-   Public for legacy reasons only, do not use elsewhere!
-   There is a good reason it is not officially documented!
- */
-mp_digit gen_random_mp_digit(void);
-#define MP_GEN_RANDOM_MAX MP_MASK
-#define MP_GEN_RANDOM()   gen_random_mp_digit(void)
 
 #ifdef __cplusplus
 }
