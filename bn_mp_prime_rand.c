@@ -73,7 +73,8 @@ mp_err s_mp_prime_random_ex(mp_int *a, int t, int size, int flags, private_mp_pr
 
       /* mix in the maskORs */
       tmp[maskOR_msb_offset]   |= maskOR_msb;
-      tmp[bsize-1]             |= maskOR_lsb;
+      if (bsize > 0)
+         tmp[bsize-1]             |= maskOR_lsb;
 
       /* read it in */
       /* TODO: casting only for now until all lengths have been changed to the type "size_t"*/
